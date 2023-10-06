@@ -44,7 +44,7 @@ public class PileRPL {
     }
 
     public void add() {
-        if (nbObj < 2) return;
+        if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
 
         ObjEmp B = pop();
         ObjEmp A = pop();
@@ -52,8 +52,8 @@ public class PileRPL {
         push(A.add(B));
     }
 
-    public void substract() {
-        if (nbObj < 2) return;
+    public void substract() throws ArithmeticException {
+        if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
 
         ObjEmp B = pop();
         ObjEmp A = pop();
@@ -61,8 +61,8 @@ public class PileRPL {
         push(A.substract(B));
     }
 
-    public void multiply() {
-        if (nbObj < 2) return;
+    public void multiply() throws ArithmeticException {
+        if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
 
         ObjEmp B = pop();
         ObjEmp A = pop();
@@ -70,8 +70,8 @@ public class PileRPL {
         push(A.multiply(B));
     }
 
-    public void divide() {
-        if (nbObj < 2) return;
+    public void divide() throws ArithmeticException {
+        if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
         
         ObjEmp B = pop();
         ObjEmp A = pop();

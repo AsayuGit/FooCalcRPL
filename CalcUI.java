@@ -40,34 +40,38 @@ public class CalcUI {
         while (tokens.hasMoreTokens()) {
             String token = tokens.nextToken();
 
-            switch (token) {
-                case "exit":
-                    running = false;
-                    return false;
+            try {
+                switch (token) {
+                    case "exit":
+                        running = false;
+                        return false;
 
-                case "+":
-                    pile.add();
-                    System.out.println(pile + "\n");
-                    break;
+                    case "+":
+                        pile.add();
+                        System.out.println(pile + "\n");
+                        break;
 
-                case "-":
-                    pile.substract();
-                    System.out.println(pile + "\n");
-                    break;
+                    case "-":
+                        pile.substract();
+                        System.out.println(pile + "\n");
+                        break;
 
-                case "*":
-                    pile.multiply();
-                    System.out.println(pile + "\n");
-                    break;
+                    case "*":
+                        pile.multiply();
+                        System.out.println(pile + "\n");
+                        break;
 
-                case "/":
-                    pile.divide();
-                    System.out.println(pile + "\n");
-                    break;
+                    case "/":
+                        pile.divide();
+                        System.out.println(pile + "\n");
+                        break;
 
-                default:
-                    parseOperand(token);
-                    break;
+                    default:
+                        parseOperand(token);
+                        break;
+                }
+            } catch (ArithmeticException e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
 
