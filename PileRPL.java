@@ -43,39 +43,36 @@ public class PileRPL {
         return stringRep;
     }
 
-    public void add() {
+    public void add() throws ArithmeticException { execute(EComputeOps.ADD); }
+
+    public void substract() throws ArithmeticException { execute(EComputeOps.SUBSTRACT); }
+
+    public void multiply() throws ArithmeticException { execute(EComputeOps.MULTIPLY); }
+
+    public void divide() throws ArithmeticException { execute(EComputeOps.DIVIDE); }
+
+    private void execute(EComputeOps ops) throws ArithmeticException {
         if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
 
         ObjEmp B = pop();
         ObjEmp A = pop();
 
-        push(A.add(B));
-    }
+        ObjEmp result = null;
+        switch (ops) {
+            case ADD:
+                result = A.add(B);
+                break;
+            case SUBSTRACT:
+                result = A.substract(B);
+                break;
+            case MULTIPLY:
+                result = A.multiply(B);
+                break;
+            case DIVIDE:
+                result = A.divide(B);
+                break;
+        }
 
-    public void substract() throws ArithmeticException {
-        if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
-
-        ObjEmp B = pop();
-        ObjEmp A = pop();
-
-        push(A.substract(B));
-    }
-
-    public void multiply() throws ArithmeticException {
-        if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
-
-        ObjEmp B = pop();
-        ObjEmp A = pop();
-
-        push(A.multiply(B));
-    }
-
-    public void divide() throws ArithmeticException {
-        if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
-        
-        ObjEmp B = pop();
-        ObjEmp A = pop();
-
-        push(A.divide(B));
+        push(result);
     }
 }
