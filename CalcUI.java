@@ -46,15 +46,23 @@ public class CalcUI {
                     return false;
 
                 case "+":
+                    pile.add();
+                    System.out.println(pile + "\n");
                     break;
 
                 case "-":
+                    pile.substract();
+                    System.out.println(pile + "\n");
                     break;
 
                 case "*":
+                    pile.multiply();
+                    System.out.println(pile + "\n");
                     break;
 
                 case "/":
+                    pile.divide();
+                    System.out.println(pile + "\n");
                     break;
 
                 default:
@@ -71,6 +79,7 @@ public class CalcUI {
         try {
             obj = new ObjEmp(operand);
             pile.push(obj);
+
             System.out.println(pile + "\n");
         } catch (InvalidParameterException e) {
             System.out.println("Invalid Argument");
