@@ -12,15 +12,23 @@ public class ObjEmp {
     }
 
     public ObjEmp(String value) throws InvalidParameterException {
-        Pattern complexPatrern = Pattern.compile("(-*[0-9]+)\\+?(-*[0-9]+)i");
+        Pattern complexPatrern = Pattern.compile("(-?[0-9]+)?\\+?(-?[0-9]+)i");
         Matcher complexMatcher = complexPatrern.matcher(value);
 
         if (!complexMatcher.find()) {
-            throw new InvalidParameterException("Not a complex");
+            Pattern realPattern = Pattern.compile("(-?[0-9]+)");
+            Matcher realMatcher = realPattern.matcher(value);
+
+            if (!realMatcher.find()) throw new InvalidParameterException("Not a complex");
+
+            real = Integer.parseInt(realMatcher.group(1));
+            return;
         }
 
-        real = Integer.parseInt(complexMatcher.group(1));
         imaginary = Integer.parseInt(complexMatcher.group(2));
+        if (complexMatcher.group(1) != null) {
+            real = Integer.parseInt(complexMatcher.group(1));
+        }
     }
 
     public ObjEmp add(ObjEmp operand) {
@@ -47,6 +55,11 @@ public class ObjEmp {
 
     @Override
     public String toString() {
-        return real + ((imaginary > 0) ? " + " : " - ") + Math.abs(imaginary) + "i";
+        String rep = "";
+        if (real != 0) rep += real;
+        if (real != 0 && imaginary != 0) rep += ((imaginary > 0) ? " + " : " ");
+        if (imaginary != 0) rep += imaginary + "i";
+        
+        return rep;
     }
 }
