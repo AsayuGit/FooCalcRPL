@@ -26,7 +26,7 @@ public class PileRPL {
     public String toString() {
         int maxLength = 5;
         String[] objStrings = new String[nbObj];
-        for (int index = 0; index < nbObj; ++index) {
+        for (int index = nbObj - 1; index >= 0; --index) {
             objStrings[index] = objs[index].toString(); 
             if (objStrings[index].length() > maxLength) {
                 maxLength = objStrings[index].length();
@@ -36,7 +36,7 @@ public class PileRPL {
 
         String stringRep = "  |" + " ".repeat(maxLength + 2) + "|\n";
         for (int index = nbObj - 1; index >= 0; --index) {
-            stringRep += index + " | " + objStrings[index] + " |\n"; 
+            stringRep += index + " | " + " ".repeat(maxLength - objStrings[index].length()) + objStrings[index] + " |\n"; 
         }
         stringRep += "  +" + "-".repeat(maxLength + 2) + "+";
         
@@ -46,8 +46,8 @@ public class PileRPL {
     public void add() {
         if (nbObj < 2) return;
 
-        ObjEmp A = pop();
         ObjEmp B = pop();
+        ObjEmp A = pop();
 
         push(A.add(B));
     }
@@ -55,8 +55,8 @@ public class PileRPL {
     public void substract() {
         if (nbObj < 2) return;
 
-        ObjEmp A = pop();
         ObjEmp B = pop();
+        ObjEmp A = pop();
 
         push(A.substract(B));
     }
@@ -64,8 +64,8 @@ public class PileRPL {
     public void multiply() {
         if (nbObj < 2) return;
 
-        ObjEmp A = pop();
         ObjEmp B = pop();
+        ObjEmp A = pop();
 
         push(A.multiply(B));
     }
@@ -73,8 +73,8 @@ public class PileRPL {
     public void divide() {
         if (nbObj < 2) return;
         
-        ObjEmp A = pop();
         ObjEmp B = pop();
+        ObjEmp A = pop();
 
         push(A.divide(B));
     }

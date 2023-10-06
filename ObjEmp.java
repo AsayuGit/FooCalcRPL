@@ -12,7 +12,7 @@ public class ObjEmp {
     }
 
     public ObjEmp(String value) throws InvalidParameterException {
-        Pattern complexPatrern = Pattern.compile("([0-9]+)\\+([0-9]+)i");
+        Pattern complexPatrern = Pattern.compile("(-*[0-9]+)\\+?(-*[0-9]+)i");
         Matcher complexMatcher = complexPatrern.matcher(value);
 
         if (!complexMatcher.find()) {
@@ -47,6 +47,6 @@ public class ObjEmp {
 
     @Override
     public String toString() {
-        return real + " + " + imaginary + "i";
+        return real + ((imaginary > 0) ? " + " : " - ") + Math.abs(imaginary) + "i";
     }
 }
