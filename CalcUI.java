@@ -16,15 +16,11 @@ public class CalcUI {
 
     public void run() {
         System.out.println("FooCalcRPL:\n");
-        System.out.println(pile + "\n");
 
         running = true;
         while (running) {            
-            String userInput = getUserInput();
-
-            parseInput(userInput);
-
-            execute();
+            System.out.println(pile + "\n");
+            parseInput(getUserInput());
         }
     }
 
@@ -53,39 +49,43 @@ public class CalcUI {
                     case "+":
                     case "add":
                         pile.add();
-                        System.out.println(pile + "\n");
                         break;
 
                     case "-":
                     case "sub":
                         pile.substract();
-                        System.out.println(pile + "\n");
                         break;
 
                     case "*":
                     case "mul":
                         pile.multiply();
-                        System.out.println(pile + "\n");
                         break;
 
                     case "/":
                     case "div":
                         pile.divide();
-                        System.out.println(pile + "\n");
                         break;
 
                     case "pop":
+                        if (pile.size() > 0) pile.pop();
+                        else throw new InvalidParameterException("Nothing to pop");
                         break;
 
                     case "push":
+                        if (tokens.hasMoreTokens()) parseOperand(tokens.nextToken());
+                        else throw new InvalidParameterException("Nothing to push");
+                        break;
+
                     default:
                         parseOperand(token);
                         break;
                 }
+            } catch (InvalidParameterException e) {
+                System.out.println("Parameter Error: " + e.getMessage());
             } catch (ArithmeticException e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Arithmetic Error: " + e.getMessage());
             } catch (OperationNotSupportedException e) {
-                System.out.println("Opperation Impossible: " + e.getMessage());
+                System.out.println("Opperation Error: " + e.getMessage());
             }
         }
 
@@ -106,13 +106,8 @@ public class CalcUI {
             }
 
             pile.push(obj);
-            System.out.println(pile + "\n");
         } catch (InvalidParameterException e) {
             System.out.println("Invalid Argument: " + e.getMessage());
         }
-    }
-
-    private void execute() {
-
     }
 }

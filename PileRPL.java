@@ -24,6 +24,10 @@ public class PileRPL {
         return objs[--nbObj];
     }
 
+    public int size() {
+        return nbObj;
+    }
+
     @Override
     public String toString() {
         int maxLength = 5;

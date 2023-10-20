@@ -25,8 +25,8 @@ public class ObjEmpVector extends ObjEmp {
         // Match each vector component
         try {
             X = new ObjEmpComplex(vectorMatcher.group(1));
-            Y = new ObjEmpComplex(vectorMatcher.group(1));
-            Z = new ObjEmpComplex(vectorMatcher.group(1));
+            Y = new ObjEmpComplex(vectorMatcher.group(2));
+            Z = new ObjEmpComplex(vectorMatcher.group(3));
         } catch (InvalidParameterException e) {
             throw new InvalidParameterException("Bad vector data");
         }
