@@ -13,3 +13,9 @@ build:
 
 run:
 	@cd $(OUT); java $(PROJ)
+
+remote:
+	@cd $(OUT); java $(PROJ) R
+
+shared:
+	@cd $(OUT); java $(PROJ) R S

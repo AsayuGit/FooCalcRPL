@@ -1,11 +1,6 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 
-enum CalcServerModes {
-    SHARED,
-    DISCRETE
-}
-
 public class CalcServer extends Thread {
     private ServerSocket serverSocket;
     private boolean serverAlive;
