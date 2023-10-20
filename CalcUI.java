@@ -35,7 +35,7 @@ public class CalcUI {
             parseInput(userInput);
 
 
-            if (running && (logOut != null)) logOut.println(userInput); // Log if available
+            if (running && (this.logOut != null)) this.logOut.println(userInput); // Log if available
         }
     }
 

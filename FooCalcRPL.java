@@ -13,7 +13,7 @@ class FooCalcRPL {
 
         // Execute
         if (serverMode == CalcServerModes.LOCAL) runLocal();
-        else new CalcServer(serverMode, 2509);
+        else new CalcServer(serverMode, log, 2509);
     }
 
     public static void parseArgs(String[] args) {

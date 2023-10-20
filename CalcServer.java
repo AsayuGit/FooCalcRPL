@@ -6,10 +6,13 @@ public class CalcServer extends Thread {
     private boolean serverAlive;
     private CalcServerModes mode;
     private PileRPL pile;
+    private boolean log;
+    private int nbOfClients = 0;
 
-    public CalcServer(CalcServerModes mode, int port) {
+    public CalcServer(CalcServerModes mode, boolean log, int port) {
         if (mode == CalcServerModes.SHARED) pile = new PileRPL(5);
         this.mode = mode;
+        this.log = log;
 
         try {
             serverSocket = new ServerSocket(port);
@@ -27,12 +30,13 @@ public class CalcServer extends Thread {
         while (serverAlive) {
             try {
                 switch (mode) {
+                    default:
                     case SHARED:
-                        new ClientHandler(pile, serverSocket.accept());
+                        new ClientHandler(pile, serverSocket.accept(), ++nbOfClients, log);
                         break;
 
                     case DISCRETE:
-                        new ClientHandler(new PileRPL(5), serverSocket.accept());
+                        new ClientHandler(new PileRPL(5), serverSocket.accept(), ++nbOfClients, log);
                         break;
                 }
             } catch (IOException e) {

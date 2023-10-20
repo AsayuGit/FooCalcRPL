@@ -22,3 +22,6 @@ shared:
 
 discrete:
 	@cd $(OUT); java $(PROJ) -m discrete
+
+remote_logged:
+	@cd $(OUT); java $(PROJ) -m discrete -l true
