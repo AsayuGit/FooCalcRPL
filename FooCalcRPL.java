@@ -1,5 +1,8 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 class FooCalcRPL {
     public static void main(String[] args) {
@@ -25,7 +28,14 @@ class FooCalcRPL {
             case "L":
             case "local":
                 BufferedReader consoleIn = new BufferedReader(new InputStreamReader(System.in));
-                new CalcUI(new PileRPL(5), consoleIn, System.out);
+
+                try {
+                    PrintStream logStream = new PrintStream("calclog_Local.txt");
+                    new CalcUI(new PileRPL(5), consoleIn, System.out, logStream);
+                    logStream.close();
+                } catch (FileNotFoundException e) {
+                    System.out.println("Unable to create log file !");
+                }
                 break;
         }
     }

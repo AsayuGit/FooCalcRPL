@@ -11,21 +11,31 @@ import javax.naming.OperationNotSupportedException;
 public class CalcUI {
     private BufferedReader consoleIn;
     private PrintStream consoleOut;
+    private PrintStream logOut;
     private PileRPL pile;
 
     boolean running = false;
 
     public CalcUI(PileRPL pile, BufferedReader consoleIn, PrintStream consoleOut) {
+        this(pile, consoleIn, consoleOut, null);
+    }
+
+    public CalcUI(PileRPL pile, BufferedReader consoleIn, PrintStream consoleOut, PrintStream logOut) {
         this.pile = pile;
         this.consoleIn = consoleIn;
         this.consoleOut = consoleOut;
+        this.logOut = logOut;
 
         consoleOut.println("FooCalcRPL:\n");
 
         running = true;
         while (running) {            
             consoleOut.println(pile + "\n");
-            parseInput(getUserInput());
+            String userInput = getUserInput();
+            parseInput(userInput);
+
+
+            if (running && (logOut != null)) logOut.println(userInput); // Log if available
         }
     }
 
