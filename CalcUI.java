@@ -32,8 +32,10 @@ public class CalcUI {
         while (running) {            
             consoleOut.println(pile + "\n");
             String userInput = getUserInput();
-            parseInput(userInput);
-
+            
+            synchronized(pile) {
+                parseInput(userInput);
+            }
 
             if (running && (this.logOut != null)) this.logOut.println(userInput); // Log if available
         }
