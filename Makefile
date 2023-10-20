@@ -14,6 +14,9 @@ build:
 run:
 	@cd $(OUT); java $(PROJ)
 
+help:
+	@cd $(OUT); java $(PROJ) -h
+
 logged:
 	@cd $(OUT); java $(PROJ) -l true	
 

@@ -9,33 +9,43 @@ class FooCalcRPL {
 
     public static void main(String[] args) {
         // Parse
-        parseArgs(args);
-
-        // Execute
-        if (serverMode == CalcServerModes.LOCAL) runLocal();
-        else new CalcServer(serverMode, log, 2509);
+        if (parseArgs(args)) {
+            // Execute
+            if (serverMode == CalcServerModes.LOCAL) runLocal();
+            else new CalcServer(serverMode, log, 2509);
+        }
     }
 
-    public static void parseArgs(String[] args) {
+    private static boolean parseArgs(String[] args) {
+        boolean parseStatus = true;
+
         for (int i = 0; i < args.length; ++i) {
             switch (args[i]) {
                 case "-m":
-                case "-mode":
+                case "--mode":
                     parseMode(args[++i]);
                     break;
 
                 case "-l":
-                case "-log":
+                case "--log":
                     parseLog(args[++i]);
+                    break;
+
+                case "-h":
+                case "--help":
+                    displayHelp();
+                    parseStatus = false;
                     break;
 
                 default:
                     break;
             }
         }
+
+        return parseStatus;
     }
 
-    public static void parseMode(String mode) {
+    private static void parseMode(String mode) {
         switch (mode) {
             case "L":
             case "local":
@@ -54,7 +64,7 @@ class FooCalcRPL {
         }
     }
 
-    public static void parseLog(String logEnable) {
+    private static void parseLog(String logEnable) {
         switch (logEnable) {
             case "1":
             case "true":
@@ -71,7 +81,7 @@ class FooCalcRPL {
         }
     }
 
-    public static void runLocal() {
+    private static void runLocal() {
         BufferedReader consoleIn = new BufferedReader(new InputStreamReader(System.in));
         PileRPL pile = new PileRPL(5);
 
@@ -86,5 +96,20 @@ class FooCalcRPL {
         } else {
             new CalcUI(pile, consoleIn, System.out, null);
         }
+    }
+
+    private static void displayHelp() {
+        System.out.println("""
+        FooCalcRPL:
+            -h/--help: Display this guide
+            
+            -m/--mode: Set the operating mode
+                       L/local    : The Calc will run on the Standard output
+                       S/shared   : Remote used can connect and share a same pile
+                       D/discrete : Remote can connect and use their own pile
+
+            -l/--log:  Enable or disable logging
+                       1/true/enable - 0/false/disabled
+        """);
     }
 }
