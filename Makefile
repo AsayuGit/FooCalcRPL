@@ -14,8 +14,11 @@ build:
 run:
 	@cd $(OUT); java $(PROJ)
 
-remote:
-	@cd $(OUT); java $(PROJ) R
+logged:
+	@cd $(OUT); java $(PROJ) -l true	
 
 shared:
-	@cd $(OUT); java $(PROJ) R S
+	@cd $(OUT); java $(PROJ) -m shared
+
+discrete:
+	@cd $(OUT); java $(PROJ) -m discrete
