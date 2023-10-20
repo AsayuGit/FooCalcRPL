@@ -3,6 +3,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.InvalidParameterException;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.naming.OperationNotSupportedException;
 
 public class CalcUI {
     private BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
@@ -47,31 +51,41 @@ public class CalcUI {
                         return false;
 
                     case "+":
+                    case "add":
                         pile.add();
                         System.out.println(pile + "\n");
                         break;
 
                     case "-":
+                    case "sub":
                         pile.substract();
                         System.out.println(pile + "\n");
                         break;
 
                     case "*":
+                    case "mul":
                         pile.multiply();
                         System.out.println(pile + "\n");
                         break;
 
                     case "/":
+                    case "div":
                         pile.divide();
                         System.out.println(pile + "\n");
                         break;
 
+                    case "pop":
+                        break;
+
+                    case "push":
                     default:
                         parseOperand(token);
                         break;
                 }
             } catch (ArithmeticException e) {
                 System.out.println("Error: " + e.getMessage());
+            } catch (OperationNotSupportedException e) {
+                System.out.println("Opperation Impossible: " + e.getMessage());
             }
         }
 
@@ -79,14 +93,22 @@ public class CalcUI {
     }
 
     private void parseOperand(String operand) {
-        ObjEmp obj;
-        try {
-            obj = new ObjEmp(operand);
-            pile.push(obj);
+        Pattern enclosedPattern = Pattern.compile("\\(.*\\)");
+        Matcher enclosedMatcher = enclosedPattern.matcher(operand);
 
+        try {
+            ObjEmp obj;
+
+            if (enclosedMatcher.find()) {
+                obj = new ObjEmpVector(operand);
+            } else {
+                obj = new ObjEmpComplex(operand);
+            }
+
+            pile.push(obj);
             System.out.println(pile + "\n");
         } catch (InvalidParameterException e) {
-            System.out.println("Invalid Argument");
+            System.out.println("Invalid Argument: " + e.getMessage());
         }
     }
 

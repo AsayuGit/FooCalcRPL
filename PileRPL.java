@@ -1,3 +1,5 @@
+import javax.naming.OperationNotSupportedException;
+
 public class PileRPL {
     private ObjEmp[] objs;
     private int nbObj = 0;
@@ -43,15 +45,15 @@ public class PileRPL {
         return stringRep;
     }
 
-    public void add() throws ArithmeticException { execute(EComputeOps.ADD); }
+    public void add() throws ArithmeticException, OperationNotSupportedException { execute(EComputeOps.ADD); }
 
-    public void substract() throws ArithmeticException { execute(EComputeOps.SUBSTRACT); }
+    public void substract() throws ArithmeticException, OperationNotSupportedException { execute(EComputeOps.SUBSTRACT); }
 
-    public void multiply() throws ArithmeticException { execute(EComputeOps.MULTIPLY); }
+    public void multiply() throws ArithmeticException, OperationNotSupportedException { execute(EComputeOps.MULTIPLY); }
 
-    public void divide() throws ArithmeticException { execute(EComputeOps.DIVIDE); }
+    public void divide() throws ArithmeticException, OperationNotSupportedException { execute(EComputeOps.DIVIDE); }
 
-    private void execute(EComputeOps ops) throws ArithmeticException {
+    private void execute(EComputeOps ops) throws ArithmeticException, OperationNotSupportedException {
         if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
 
         ObjEmp B = pop();

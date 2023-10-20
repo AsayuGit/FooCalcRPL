@@ -1,4 +1,8 @@
 import java.security.InvalidParameterException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.naming.OperationNotSupportedException;
 
 public class ObjEmpVector extends ObjEmp {
     private ObjEmpComplex X;
@@ -12,7 +16,20 @@ public class ObjEmpVector extends ObjEmp {
     }
 
     public ObjEmpVector(String value) throws InvalidParameterException {
+        Pattern vectorPattern = Pattern.compile("\\((.*),(.*),(.*)\\)");
+        Matcher vectorMatcher = vectorPattern.matcher(value);
 
+        // Match the vector
+        if (!vectorMatcher.find()) throw new InvalidParameterException("Not a vector");
+
+        // Match each vector component
+        try {
+            X = new ObjEmpComplex(vectorMatcher.group(1));
+            Y = new ObjEmpComplex(vectorMatcher.group(1));
+            Z = new ObjEmpComplex(vectorMatcher.group(1));
+        } catch (InvalidParameterException e) {
+            throw new InvalidParameterException("Bad vector data");
+        }
     }
 
     @Override
@@ -32,15 +49,13 @@ public class ObjEmpVector extends ObjEmp {
     @Override
     public ObjEmpVector multiply(ObjEmp operand) throws InvalidParameterException {
         if (!(operand instanceof ObjEmpVector)) throw new InvalidParameterException();
-        ObjEmpVector op = (ObjEmpVector)operand;
+        //ObjEmpVector op = (ObjEmpVector)operand;
         return this;
     }
 
     @Override
-    public ObjEmpVector divide(ObjEmp operand) throws InvalidParameterException {
-        if (!(operand instanceof ObjEmpVector)) throw new InvalidParameterException();
-        ObjEmpVector op = (ObjEmpVector)operand;
-        return this;
+    public ObjEmpVector divide(ObjEmp operand) throws InvalidParameterException, OperationNotSupportedException {
+        throw new OperationNotSupportedException("You cannot divide two vectors");
     }
 
     @Override
