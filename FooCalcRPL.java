@@ -1,12 +1,25 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+enum CalcModes {
+    LOCAL,
+    REMOTE
+}
+
 class FooCalcRPL {
     public static void main(String[] args) {
-        BufferedReader consoleIn = new BufferedReader(new InputStreamReader(System.in));
-        PileRPL pile = new PileRPL(5);
+        CalcModes mode = CalcModes.REMOTE;
 
-        CalcServer server = new CalcServer(pile, 2509);
-        new CalcUI(pile, consoleIn, System.out);
+        switch (mode) {
+            case REMOTE:
+                new CalcServer(CalcServerModes.DISCRETE, 2509);
+                break;
+
+            default:
+            case LOCAL:
+                BufferedReader consoleIn = new BufferedReader(new InputStreamReader(System.in));
+                new CalcUI(new PileRPL(5), consoleIn, System.out);
+                break;
+        }
     }
 }

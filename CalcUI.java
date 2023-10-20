@@ -47,6 +47,9 @@ public class CalcUI {
 
             try {
                 switch (token) {
+                    case "refresh":
+                        break;
+                    
                     case "exit":
                         running = false;
                         break;
