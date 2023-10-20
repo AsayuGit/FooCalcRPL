@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.security.InvalidParameterException;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -9,32 +9,37 @@ import java.util.regex.Pattern;
 import javax.naming.OperationNotSupportedException;
 
 public class CalcUI {
-    private BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
-    PileRPL pile = new PileRPL(5);
+    private BufferedReader consoleIn;
+    private PrintStream consoleOut;
+    private PileRPL pile;
 
     boolean running = false;
 
-    public void run() {
-        System.out.println("FooCalcRPL:\n");
+    public CalcUI(PileRPL pile, BufferedReader consoleIn, PrintStream consoleOut) {
+        this.pile = pile;
+        this.consoleIn = consoleIn;
+        this.consoleOut = consoleOut;
+
+        consoleOut.println("FooCalcRPL:\n");
 
         running = true;
         while (running) {            
-            System.out.println(pile + "\n");
+            consoleOut.println(pile + "\n");
             parseInput(getUserInput());
         }
     }
 
     private String getUserInput() {
-        System.out.print("cmd: ");
+        consoleOut.print("cmd: ");
         try {
-            return console.readLine();
+            return consoleIn.readLine();
         } catch (IOException e) {
-            System.out.println("IO Error");
+            consoleOut.println("IO Error");
             return "";
         }
     }
 
-    private boolean parseInput(String userInput) {
+    private void parseInput(String userInput) {
         StringTokenizer tokens = new StringTokenizer(userInput);
 
         while (tokens.hasMoreTokens()) {
@@ -44,7 +49,7 @@ public class CalcUI {
                 switch (token) {
                     case "exit":
                         running = false;
-                        return false;
+                        break;
 
                     case "+":
                     case "add":
@@ -81,15 +86,13 @@ public class CalcUI {
                         break;
                 }
             } catch (InvalidParameterException e) {
-                System.out.println("Parameter Error: " + e.getMessage());
+                consoleOut.println("Parameter Error: " + e.getMessage());
             } catch (ArithmeticException e) {
-                System.out.println("Arithmetic Error: " + e.getMessage());
+                consoleOut.println("Arithmetic Error: " + e.getMessage());
             } catch (OperationNotSupportedException e) {
-                System.out.println("Opperation Error: " + e.getMessage());
+                consoleOut.println("Opperation Error: " + e.getMessage());
             }
         }
-
-        return false;
     }
 
     private void parseOperand(String operand) {
@@ -107,7 +110,7 @@ public class CalcUI {
 
             pile.push(obj);
         } catch (InvalidParameterException e) {
-            System.out.println("Invalid Argument: " + e.getMessage());
+            consoleOut.println("Invalid Argument: " + e.getMessage());
         }
     }
 }
