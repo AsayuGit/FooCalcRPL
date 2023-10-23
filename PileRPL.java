@@ -60,8 +60,8 @@ public class PileRPL {
     private void execute(EComputeOps ops) throws ArithmeticException, OperationNotSupportedException {
         if (nbObj < 2) throw new ArithmeticException("Not enough parameters");
 
-        ObjEmp B = pop();
         ObjEmp A = pop();
+        ObjEmp B = pop();
 
         ObjEmp result = null;
         switch (ops) {

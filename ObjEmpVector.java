@@ -49,8 +49,13 @@ public class ObjEmpVector extends ObjEmp {
     @Override
     public ObjEmpVector multiply(ObjEmp operand) throws InvalidParameterException {
         if (!(operand instanceof ObjEmpVector)) throw new InvalidParameterException();
-        //ObjEmpVector op = (ObjEmpVector)operand;
-        return this;
+        ObjEmpVector op = (ObjEmpVector)operand;
+
+        return new ObjEmpVector(
+            Y.multiply(op.Z).substract(op.Y.multiply(Z)),
+            new ObjEmpComplex(0, 0).substract(X.multiply(op.Z).substract(op.X.multiply(Z))),
+            X.multiply(op.Y).substract(op.X.multiply(Y))
+        );
     }
 
     @Override

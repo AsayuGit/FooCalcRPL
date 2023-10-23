@@ -62,6 +62,8 @@ public class CalcUI {
                     case "refresh":
                         break;
                     
+                    case "q":
+                    case "quit":
                     case "exit":
                         running = false;
                         break;
