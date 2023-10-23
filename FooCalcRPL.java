@@ -7,69 +7,70 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 class FooCalcRPL {
+    static private boolean help = false;
     static private boolean log = false;
     static private boolean replay = false;
     static private CalcServerModes serverMode = CalcServerModes.LOCAL;
 
     public static void main(String[] args) {
         // Parse
-        if (parseArgs(args)) {
+        parseArgs(args);
+
+        if (help) {
+            displayHelp();
+        } else {
             // Execute
             if (serverMode == CalcServerModes.LOCAL) runLocal();
             else new CalcServer(serverMode, log, 2509);
         }
     }
 
-    private static boolean parseArgs(String[] args) {
-        boolean parseStatus = true;
-
+    private static void parseArgs(String[] args) {
         for (int i = 0; i < args.length; ++i) {
-            switch (args[i]) {
-                case "-m":
-                case "--mode":
-                    parseMode(args[++i]);
-                    break;
-
-                case "-l":
-                case "--log":
-                    log = true;
-                    break;
-
-                case "-h":
-                case "--help":
-                    displayHelp();
-                    parseStatus = false;
-                    break;
-
-                case "-r":
-                case "--replay":
-                    replay = true;
-                    break;
-
-                default:
-                    break;
+            if (args[i].substring(0, 2).equals("--")) {
+                switch (args[i]) {
+                    case "--help":
+                        help = true;
+                        break;
+                    case "--log":
+                        log = true;
+                        break;
+                    case "--replay":
+                        replay = true;
+                        break;
+                    case "--shared":
+                        serverMode = CalcServerModes.SHARED;
+                        break;
+                    case "--discrete":
+                        serverMode = CalcServerModes.DISCRETE;
+                        break;
+                    
+                    default:
+                        break;
+                }
+            } else if (args[i].substring(0, 1).equals("-")) {
+                for (char option : args[i].substring(1, args[i].length()).toCharArray()) {
+                    switch (option) {
+                        case 'h':
+                            help = true;
+                            break;
+                        case 'l':
+                            log = true;
+                            break;
+                        case 'r':
+                            replay = true;
+                            break;
+                        case 's':
+                            serverMode = CalcServerModes.SHARED;
+                            break;
+                        case 'd':
+                            serverMode = CalcServerModes.DISCRETE;
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
-        }
-
-        return parseStatus;
-    }
-
-    private static void parseMode(String mode) {
-        switch (mode) {
-            case "L":
-            case "local":
-                serverMode = CalcServerModes.LOCAL;
-                break;
-
-            case "S":
-            case "shared":
-                serverMode = CalcServerModes.SHARED;
-                break;
-
-            case "D":
-            case "discrete":
-                serverMode = CalcServerModes.DISCRETE;
-                break;
         }
     }
 
@@ -109,16 +110,15 @@ class FooCalcRPL {
     private static void displayHelp() {
         System.out.println("""
         FooCalcRPL:
-            -h/--help:   Display this guide
+            -h/--help:     Display this guide
             
-            -m/--mode:   Set the operating mode
-                         L/local    : The Calc will run on the Standard output
-                         S/shared   : Remote used can connect and share a same pile
-                         D/discrete : Remote can connect and use their own pile
+            Remote operating modes:
+            -s/--shared:   Users can connect and share a same pile
+            -d/--discrete: Users can connect and use their own pile
 
-            -l/--log:    Enable logging
+            -l/--log:      Enable logging
 
-            -r/--replay: Replay a previosly logged session (in local sessions)
+            -r/--replay:   Replay a previosly logged session (in local sessions)
         """);
     }
 }

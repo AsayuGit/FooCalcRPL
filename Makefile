@@ -24,13 +24,13 @@ replay:
 	@cd $(OUT); java $(PROJ) -r
 
 logged_replay:
-	@cd $(OUT); java $(PROJ) -l -r
+	@cd $(OUT); java $(PROJ) -lr
 
 shared:
-	@cd $(OUT); java $(PROJ) -m shared
+	@cd $(OUT); java $(PROJ) --shared
 
 discrete:
-	@cd $(OUT); java $(PROJ) -m discrete
+	@cd $(OUT); java $(PROJ) --discrete
 
 remote_logged:
-	@cd $(OUT); java $(PROJ) -m discrete -l
+	@cd $(OUT); java $(PROJ) --discrete -l
