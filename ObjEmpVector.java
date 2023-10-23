@@ -1,9 +1,9 @@
 import java.security.InvalidParameterException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.naming.OperationNotSupportedException;
 
+// Implements an ObjEmp for vectors 3
 public class ObjEmpVector extends ObjEmp {
     private ObjEmpComplex X;
     private ObjEmpComplex Y;
@@ -15,8 +15,9 @@ public class ObjEmpVector extends ObjEmp {
         this.Z = Z;
     }
 
+    // Parse a vector from a its string representation
     public ObjEmpVector(String value) throws InvalidParameterException {
-        Pattern vectorPattern = Pattern.compile("\\((.*),(.*),(.*)\\)");
+        Pattern vectorPattern = Pattern.compile("\\((.*),(.*),(.*)\\)"); // Match anything formated like a vector
         Matcher vectorMatcher = vectorPattern.matcher(value);
 
         // Match the vector
@@ -24,6 +25,7 @@ public class ObjEmpVector extends ObjEmp {
 
         // Match each vector component
         try {
+            // Try to instanciate each component as a complex
             X = new ObjEmpComplex(vectorMatcher.group(1));
             Y = new ObjEmpComplex(vectorMatcher.group(2));
             Z = new ObjEmpComplex(vectorMatcher.group(3));

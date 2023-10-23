@@ -4,13 +4,14 @@ import java.net.ServerSocket;
 public class CalcServer extends Thread {
     private ServerSocket serverSocket;
     private boolean serverAlive;
-    private CalcServerModes mode;
+    private ECalcServerModes mode;
     private PileRPL pile;
     private boolean log;
     private int nbOfClients = 0;
 
-    public CalcServer(CalcServerModes mode, boolean log, int port) {
-        if (mode == CalcServerModes.SHARED) pile = new PileRPL(5);
+    // Bind to the specified port and start listening for incommign connections in its own thread
+    public CalcServer(ECalcServerModes mode, boolean log, int port) {
+        if (mode == ECalcServerModes.SHARED) pile = new PileRPL(5);
         this.mode = mode;
         this.log = log;
 
@@ -24,6 +25,7 @@ public class CalcServer extends Thread {
         start();
     }
 
+    // Accepts incoming connections and instanciate each clients in their own threads
     @Override
     public void run() {
         serverAlive = true;
@@ -42,6 +44,12 @@ public class CalcServer extends Thread {
             } catch (IOException e) {
                 System.out.println("Unable to accept client connection !");
             }
+        }
+
+        try {
+            serverSocket.close(); // Close the server socket at server exit
+        } catch (IOException e) {
+            System.out.println("Unable to close the server socket !");
         }
     }
 

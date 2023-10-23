@@ -2,6 +2,7 @@ import java.security.InvalidParameterException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// Implements an ObjEmp for complex numbers
 public class ObjEmpComplex extends ObjEmp {
     public float real = 0;
     public float imaginary = 0;
@@ -11,12 +12,13 @@ public class ObjEmpComplex extends ObjEmp {
         this.imaginary = imaginary;
     }
 
+    // Parse a complex from a its string representation
     public ObjEmpComplex(String value) throws InvalidParameterException {
-        Pattern complexPatrern = Pattern.compile("(-?[0-9]+)?\\+?(-?[0-9]+)i");
+        Pattern complexPatrern = Pattern.compile("(-?[0-9]+)?\\+?(-?[0-9]+)i"); // Match any complex with an imaginary part
         Matcher complexMatcher = complexPatrern.matcher(value);
 
         if (!complexMatcher.find()) {
-            Pattern realPattern = Pattern.compile("(-?[0-9]+)");
+            Pattern realPattern = Pattern.compile("(-?[0-9]+)"); // Match purely real numbers
             Matcher realMatcher = realPattern.matcher(value);
 
             if (!realMatcher.find()) throw new InvalidParameterException("Not a complex");

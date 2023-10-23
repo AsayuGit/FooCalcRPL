@@ -1,4 +1,4 @@
-public enum CalcServerModes {
+public enum ECalcServerModes {
     LOCAL,
     SHARED,
     DISCRETE

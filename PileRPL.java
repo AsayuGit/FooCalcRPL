@@ -28,6 +28,7 @@ public class PileRPL {
         return nbObj;
     }
 
+    // Create a visual text representation of the stack
     @Override
     public String toString() {
         int maxLength = 5;
@@ -49,6 +50,7 @@ public class PileRPL {
         return stringRep;
     }
 
+    // Each operation is forwaded to the execute method as not to duplicate code
     public void add() throws ArithmeticException, OperationNotSupportedException { execute(EComputeOps.ADD); }
 
     public void substract() throws ArithmeticException, OperationNotSupportedException { execute(EComputeOps.SUBSTRACT); }

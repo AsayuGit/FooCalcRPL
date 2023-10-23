@@ -34,10 +34,11 @@ public class CalcUI {
 
         consoleOut.println("FooCalcRPL:\n");
 
+        // If a replay file is available, we replay the session before giving the control back to the user
         if (logIn != null) replayLog();
 
         running = true;
-        while (running) {
+        while (running) { // Loop until exit
             displayMenu();
 
             String userInput = getUserInput();
@@ -45,15 +46,17 @@ public class CalcUI {
                 parseInput(userInput);
             }
 
-            if (running && (this.logOut != null)) this.logOut.println(userInput); // Log if available
+            if (running && (this.logOut != null)) this.logOut.println(userInput); // Log each user input if available
         }
     }
 
+    // Display the status of the stack and prompt the user of an input
     private void displayMenu() {
         consoleOut.println(pile + "\n");
         consoleOut.print("cmd: ");
     }
 
+    // Emulate the user to replay a previous session
     private void replayLog() {
         String userInput;
 
@@ -79,6 +82,7 @@ public class CalcUI {
         }
     }
 
+    // Parse & Execute the user commands, everything else is forwarded as an operand
     private void parseInput(String userInput) {
         StringTokenizer tokens = new StringTokenizer(userInput);
 
@@ -140,6 +144,7 @@ public class CalcUI {
         }
     }
 
+    // Try to parse an operand as either a complex or a vector
     private void parseOperand(String operand) {
         Pattern enclosedPattern = Pattern.compile("\\(.*\\)");
         Matcher enclosedMatcher = enclosedPattern.matcher(operand);

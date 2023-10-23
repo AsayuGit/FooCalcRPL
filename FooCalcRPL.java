@@ -7,10 +7,11 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 class FooCalcRPL {
+    // Behavior flags
     static private boolean help = false;
     static private boolean log = false;
     static private boolean replay = false;
-    static private CalcServerModes serverMode = CalcServerModes.LOCAL;
+    static private ECalcServerModes serverMode = ECalcServerModes.LOCAL;
 
     public static void main(String[] args) {
         // Parse
@@ -20,11 +21,12 @@ class FooCalcRPL {
             displayHelp();
         } else {
             // Execute
-            if (serverMode == CalcServerModes.LOCAL) runLocal();
+            if (serverMode == ECalcServerModes.LOCAL) runLocal();
             else new CalcServer(serverMode, log, 2509);
         }
     }
 
+    // Parse the long and short console args and set the apropriate flags
     private static void parseArgs(String[] args) {
         for (int i = 0; i < args.length; ++i) {
             if (args[i].substring(0, 2).equals("--")) {
@@ -39,10 +41,10 @@ class FooCalcRPL {
                         replay = true;
                         break;
                     case "--shared":
-                        serverMode = CalcServerModes.SHARED;
+                        serverMode = ECalcServerModes.SHARED;
                         break;
                     case "--discrete":
-                        serverMode = CalcServerModes.DISCRETE;
+                        serverMode = ECalcServerModes.DISCRETE;
                         break;
                     
                     default:
@@ -61,10 +63,10 @@ class FooCalcRPL {
                             replay = true;
                             break;
                         case 's':
-                            serverMode = CalcServerModes.SHARED;
+                            serverMode = ECalcServerModes.SHARED;
                             break;
                         case 'd':
-                            serverMode = CalcServerModes.DISCRETE;
+                            serverMode = ECalcServerModes.DISCRETE;
                             break;
                         default:
                             break;
@@ -74,6 +76,7 @@ class FooCalcRPL {
         }
     }
 
+    // Setup CalcUI for a local session
     private static void runLocal() {
         BufferedReader consoleIn = new BufferedReader(new InputStreamReader(System.in));
         BufferedReader logIn = null;
@@ -81,6 +84,7 @@ class FooCalcRPL {
         PileRPL pile = new PileRPL(5);
         final String localLogName = "calclog_Local.txt";
 
+        // Try to open the replay file (if any)
         if (replay) {
             try {
                 logIn = new BufferedReader(new FileReader(localLogName));
@@ -89,6 +93,7 @@ class FooCalcRPL {
             }
         }
 
+        // Try to open the log file (if any)
         if (log) {
             try {
                 logOut = new PrintStream(new FileOutputStream(localLogName, replay));
@@ -97,8 +102,10 @@ class FooCalcRPL {
             }
         }
 
+        // Start CalcUI on the local console
         new CalcUI(pile, consoleIn, System.out, logIn, logOut);
 
+        // Closes any open streams
         try {
             if (logOut != null) logOut.close();
             if (logIn != null) logIn.close();
