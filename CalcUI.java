@@ -11,28 +11,36 @@ import javax.naming.OperationNotSupportedException;
 public class CalcUI {
     private BufferedReader consoleIn;
     private PrintStream consoleOut;
+    private BufferedReader logIn;
     private PrintStream logOut;
     private PileRPL pile;
 
     boolean running = false;
 
     public CalcUI(PileRPL pile, BufferedReader consoleIn, PrintStream consoleOut) {
-        this(pile, consoleIn, consoleOut, null);
+        this(pile, consoleIn, consoleOut, null, null);
     }
 
     public CalcUI(PileRPL pile, BufferedReader consoleIn, PrintStream consoleOut, PrintStream logOut) {
+        this(pile, consoleIn, consoleOut, null, logOut);
+    }
+
+    public CalcUI(PileRPL pile, BufferedReader consoleIn, PrintStream consoleOut, BufferedReader logIn, PrintStream logOut) {
         this.pile = pile;
         this.consoleIn = consoleIn;
         this.consoleOut = consoleOut;
+        this.logIn = logIn;
         this.logOut = logOut;
 
         consoleOut.println("FooCalcRPL:\n");
 
+        if (logIn != null) replayLog();
+
         running = true;
-        while (running) {            
-            consoleOut.println(pile + "\n");
+        while (running) {
+            displayMenu();
+
             String userInput = getUserInput();
-            
             synchronized(pile) {
                 parseInput(userInput);
             }
@@ -41,8 +49,28 @@ public class CalcUI {
         }
     }
 
-    private String getUserInput() {
+    private void displayMenu() {
+        consoleOut.println(pile + "\n");
         consoleOut.print("cmd: ");
+    }
+
+    private void replayLog() {
+        String userInput;
+
+        try {
+            while ((userInput = logIn.readLine()) != null) {
+                displayMenu();
+                consoleOut.println(userInput);
+                synchronized(pile) {
+                    parseInput(userInput);
+                }
+            }
+        } catch (IOException e) {
+            consoleOut.println("IO Error");
+        }
+    }
+
+    private String getUserInput() {
         try {
             return consoleIn.readLine();
         } catch (IOException e) {
