@@ -5,9 +5,9 @@ import javax.naming.OperationNotSupportedException;
 
 // Implements an ObjEmp for vectors 3
 public class ObjEmpVector extends ObjEmp {
-    private ObjEmpComplex X;
-    private ObjEmpComplex Y;
-    private ObjEmpComplex Z;
+    public ObjEmpComplex X;
+    public ObjEmpComplex Y;
+    public ObjEmpComplex Z;
 
     public ObjEmpVector(ObjEmpComplex X, ObjEmpComplex Y, ObjEmpComplex Z) {
         this.X = X;

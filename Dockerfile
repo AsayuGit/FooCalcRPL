@@ -16,3 +16,5 @@ RUN mv /build/FooCalcRPL.jar /opt/FooCalcRPL.jar
 
 # Remove the sources from the image
 RUN rm -rf /build
+
+EXPOSE 2509

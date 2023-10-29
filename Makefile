@@ -20,4 +20,4 @@ docker-build:
 	docker build -t foocalcrpl:latest .
 
 docker-run:
-	docker run --rm -it -v $(CURDIR):$(CURDIR) -w $(CURDIR) foocalcrpl /bin/bash
+	docker run -p 2509:2509 --rm -it -v $(CURDIR):$(CURDIR) -w $(CURDIR) foocalcrpl /bin/bash
