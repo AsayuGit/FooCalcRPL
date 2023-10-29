@@ -1,36 +1,23 @@
 CC := javac
 
-SRC :=  FooCalcRPL.java \
-		PileRPL.java \
-		ObjEmp.java
+SRC :=  src/FooCalcRPL.java
 
 OUT := out
 
 PROJ := FooCalcRPL
 
 build:
-	$(CC) -d $(OUT) $(SRC)
+	$(CC) -sourcepath src -d $(OUT) $(SRC)
+	jar cfe $(PROJ).jar $(PROJ) -C $(OUT) .
+
+clean:
+	rm -rf $(OUT) $(PROJ).jar
 
 run:
-	@cd $(OUT); java $(PROJ)
+	java -jar $(PROJ).jar
 
-help:
-	@cd $(OUT); java $(PROJ) -h
+docker-build:
+	docker build -t foocalcrpl:latest .
 
-logged:
-	@cd $(OUT); java $(PROJ) -l
-
-replay:
-	@cd $(OUT); java $(PROJ) -r
-
-logged_replay:
-	@cd $(OUT); java $(PROJ) -lr
-
-shared:
-	@cd $(OUT); java $(PROJ) --shared
-
-discrete:
-	@cd $(OUT); java $(PROJ) --discrete
-
-remote_logged:
-	@cd $(OUT); java $(PROJ) --discrete -l
+docker-run:
+	docker run --rm -it -v $(CURDIR):$(CURDIR) -w $(CURDIR) foocalcrpl /bin/bash
